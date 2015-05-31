@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Region Manager Plus Module for Magento
+ *
+ * @category   Demarsico
+ * @package    Demarsico_RegionManagerPlus
+ * @copyright  Copyright (c) 2014 Gastón De Mársico
+ * @author     Gastón De Mársico <demarsicoico.g@gmail.com>
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Demarsico_RegionManagerPlus>
+            <version>0.0.4</version>
+        </Demarsico_RegionManagerPlus>
+    </modules>
+    <global>
+        <blocks>
+            <demarsico_regionmanagerplus>
+                <class>Demarsico_RegionManagerPlus_Block</class>
+            </demarsico_regionmanagerplus>
+        </blocks>
+        <helpers>
+            <demarsico_regionmanagerplus>
+                <class>Demarsico_RegionManagerPlus_Helper</class>
+            </demarsico_regionmanagerplus>
+             <directory>
+                <rewrite>
+                    <data>Demarsico_RegionManagerPlus_Helper_Directorydata</data>
+                </rewrite>
+            </directory>
+        </helpers>
+        <models>
+            <demarsico_regionmanagerplus>
+                <class>Demarsico_RegionManagerPlus_Model</class>
+                <resourceModel>demarsico_regionmanagerplus_resource</resourceModel>
+            </demarsico_regionmanagerplus>
+            <demarsico_regionmanagerplus_resource>
+                <class>Demarsico_RegionManagerPlus_Model_Resource</class>
+                <entities>
+                    <region>
+                        <table>directory_country_region</table>
+                    </region>
+                </entities>
+            </demarsico_regionmanagerplus_resource>
+        </models>
+        <resources>
+            <demarsico_regionmanagerplus_setup>
+                <setup>
+                    <module>Demarsico_RegionManagerPlus</module>
+                </setup>
+            </demarsico_regionmanagerplus_setup>
+        </resources>          
+    </global>
+    <admin>
+        <routers>
+            <demarsico_regionmanagerplus>
+                <use>admin</use>
+                <args>
+                    <module>Demarsico_RegionManagerPlus</module>
+                    <frontName>regionmanagerplus</frontName>
+                </args>
+            </demarsico_regionmanagerplus>
+        </routers>
+    </admin>
+    <default>
+        <demarsico>
+            <regionmanagerplus>                
+                <api_url>http://api.demarsico.net/magento/ws/</api_url>         
+            </regionmanagerplus>      
+        </demarsico>
+    </default>
+    <adminhtml>
+        <layout>
+            <updates>
+                <demarsico_regionmanagerplus>
+                    <file>demarsico_regionmanagerplus.xml</file>
+                </demarsico_regionmanagerplus>
+            </updates>
+        </layout>
+    </adminhtml>
+</config>
