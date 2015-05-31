@@ -56,7 +56,7 @@ class Demarsico_RegionManagerPlus_Block_Adminhtml_Regions_Edit_Tab_Form extends 
                                                       '1' => Mage::helper('demarsico_regionmanagerplus')->__('Yes')),
                                     )
         );
-        $locales = Mage::helper('demarsico_regionmanagerplus')->getLocales();
+        $locales = Mage::helper('demarsico_regionmanagerplus')->getLocales();        
         foreach ($locales as $locale) {
             $fieldSet{$locale} = $form->addFieldset('demarsico_regionmanagerplus_form_' . $locale, array('legend' => Mage::helper('demarsico_regionmanagerplus')->__('Locale ' . $locale)));
             $fieldSet{$locale}->addField(
@@ -75,13 +75,14 @@ class Demarsico_RegionManagerPlus_Block_Adminhtml_Regions_Edit_Tab_Form extends 
         if($id){
             $resource = Mage::getSingleton('core/resource');
             $read = $resource->getConnection('core_read');
-            $regionName = $resource->getTableName('directory/country_region_name');
-
-            $select = $read->select()->from(array('region'=>$regionName))->where('region.region_id=?', $id);
-            $data =$read->fetchAll($select);
-            foreach($data as $row)
+            $table = $resource->getTableName('directory/country_region_name');            
+            foreach($locales as $key =>$value)
             {
-                $form->addValues(array('name_'.$row['locale']=> $row['name']));
+                $query = 'SELECT name FROM ' . $table. ' WHERE region_id = '.$id.
+                ' AND locale = ';
+                $query .= '"'.$key.'" LIMIT 1';
+                $name = $read->fetchOne($query);                
+                $form->addValues(array('name_'.$key=> $name));
             }
         }
         return parent::_prepareForm();

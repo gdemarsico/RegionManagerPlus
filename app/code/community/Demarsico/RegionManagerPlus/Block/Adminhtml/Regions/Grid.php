@@ -109,7 +109,6 @@ class Demarsico_RegionManagerPlus_Block_Adminhtml_Regions_Grid extends Mage_Admi
     public function getRowUrl($row)
     {
         return '';
-        return $this->getUrl('*/*/edit', array('id' => $row->getRegionId()));
     }
 
     protected function _prepareMassaction()

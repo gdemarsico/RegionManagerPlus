@@ -92,7 +92,7 @@
                     foreach ($locales as $locale) {
                         $localeName = $request->getParam('name_' . $locale);
                         if ($localeName) {
-                            $write->insert($regionName, array('region_id' => $region->getRegionId(), 'locale' => $locale, 'name' => trim($name)));
+                            $write->insert($regionName, array('region_id' => $region->getRegionId(), 'locale' => $locale, 'name' => trim($localeName)));
                         }
                     }
                 }
@@ -113,14 +113,18 @@
     public function massDeleteAction()
     {
         $regionIds = $this->getRequest()->getParam('demarsico_regionmanagerplus');
+        
         if (!is_array($regionIds)) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select region(s).'));
-        } else {
+            Mage::getSingleton('adminhtml/session')
+                ->addError(Mage::helper('adminhtml')
+                ->__('Please select region(s).'));
+        } 
+        else {
             try {
-                $region = Mage::getModel('directory/region');
-                foreach ($regionIds as $regionId) {
-                    $region->load($regionId)
-                        ->delete();
+                $collection = Mage::getModel('directory/region')->getCollection()
+                    ->addFieldToFilter('main_table.region_id', array('in' => $regionIds));;
+                foreach ($collection as $region) {
+                    $region->delete();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     Mage::helper('adminhtml')->__('Total of %d record(s) were deleted.', count($regionIds))
@@ -240,6 +244,7 @@
         }
         $row = Mage::getModel('demarsico_regionmanagerplus/region')->getCollection()
             ->addFieldToFilter('code', $value)
+            ->setPageSize(1)
             ->getFirstItem();
         if (($row->getRegionId() == $editorId) && (trim($value) == $row->getCode())) {
             echo $row->getCode() . ' not updated';
@@ -272,7 +277,7 @@
             $client = new SoapClient($url, $soap_options ); 
         }
         catch(Exception $e){
-
+            echo $e->getCode() . '-' . $e->getMessage();
         }
         $results = $client->getCountries($version);
         echo json_encode($results);
@@ -280,7 +285,7 @@
 
     public function getRegionsByConutryAction(){
         $version = Mage::helper('demarsico_regionmanagerplus')->getModuleVersion();
-        $coutryCode = $_GET['country_code'];
+        $coutryCode = $this->getRequest()->getParam('country_code');
         $url = Mage::getStoreConfig('demarsico/regionmanagerplus/api_url');
         $soap_options = array(
             'soap_version'   => SOAP_1_2,
@@ -296,7 +301,7 @@
 
     public function sendCommentAction(){
         $version = Mage::helper('demarsico_regionmanagerplus')->getModuleVersion();
-        $comment = $_GET['feedback'];
+        $comment = $this->getRequest()->getParam('feedback');
         $url = Mage::getStoreConfig('demarsico/regionmanagerplus/api_url');
         $soap_options = array(
             'soap_version'   => SOAP_1_2,
