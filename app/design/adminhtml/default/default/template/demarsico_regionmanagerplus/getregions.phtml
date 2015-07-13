@@ -1,0 +1,165 @@
+<html>
+	<head>
+		<script src="http://api.demarsico.net/js/jquery-1.11.2.min.js"></script>
+		<style type="text/css">
+		.styled-select select {
+		   background: transparent;
+		   width: 100%;
+		   padding: 5px;
+		   font-size: 16px;
+		   line-height: 1;
+		   border: 0;
+		   border-radius: 0;
+		   height: 34px;
+		   }
+		.styled-select {
+		   height: 34px;
+		   margin: 10px;
+		   overflow: hidden;
+		   background: no-repeat right #ddd;
+		   border: 1px solid #ccc;
+		   }
+		.styled-button {
+		   height: 34px;
+		   margin: 10px;
+		   font-size: 16px;
+		   line-height: 1;
+		   overflow: hidden;
+		   background: no-repeat right #ddd;
+		   border: 1px solid #ccc;
+		   cursor:pointer;
+		   }
+		.success { color:#3d6611; font-weight:bold; }
+		.error { color:#df280a; font-weight:bold; }
+		.notice { color:#e26703; }
+		 
+		.messages,
+		.messages ul { list-style:none !important; margin:0 !important; padding:0 !important; }
+		.messages { width:100%; overflow:hidden; }
+		.messages li { margin:0 0 10px !important; }
+		.messages li li { margin:0 0 3px !important; }
+		.error-msg,
+		.success-msg,
+		.note-msg,
+		.notice-msg { border-style:solid !important; border-width:1px !important; background-position:10px 9px !important; background-repeat:no-repeat !important; min-height:24px !important; padding:8px 8px 8px 32px !important; font-size:11px !important; font-weight:bold !important; }
+		.error-msg { border-color:#f16048; background-color:#faebe7; background-image:url(../images/i_msg-error.gif); color:#df280a; }
+		.success-msg { border-color:#446423; background-color:#eff5ea; background-image:url(../images/i_msg-success.gif); color:#3d6611; }
+		.note-msg,
+		.notice-msg { border-color:#fcd344; background-color:#fafaec; background-image:url(../images/i_msg-note.gif); color:#3d6611; }
+		</style>
+	</head>
+	<body>
+		<ul id="api-messages" class="messages"><li class="success"></li></ul>
+		<div id="ajax-container">
+			<div id="ajax-loader" style="text-align: center;">
+				<img src="http://api.demarsico.net/css/ajax-loading.gif" width="230px" height="230px">
+				<p id="text-message"></p>
+			</div>
+			<div id="form-container" style="text-align: center;display:none">
+				<div class="styled-select">
+					<select id="country_select">	
+					</select>
+				</div>	
+				<div>
+					<button class="styled-button" id="region_button" type="button"><?php echo $this->__('Download')?></button>
+				</div>
+			</div>
+			<div id="server-response">
+
+			</div>
+		</div>
+		<script type="text/javascript">			
+			$( "#text-message" ).html("<?php echo Mage::helper('demarsico_regionmanagerplus')->__('Searching country regions, please wait.')?>");
+			$( "#region_button" ).click(function() {
+				$( "#text-message" ).html("<?php echo Mage::helper('demarsico_regionmanagerplus')->__('Downloading regions, please wait.')?>");
+			  getRegionsByConutry();
+			});
+			toggleAjax(false);
+			$.ajax({
+			  dataType: "json",
+			  url: "<?php echo $this->getUrl('*/*/getAvailableCountries')?>",
+			  success: function (response) {
+			  	$('#server-response').html(response.html);
+		        $.each(response.data, function(key, value) {   
+				     $("#country_select")
+				         .append($("<option></option>")
+				         .attr("value",key)
+				         .text(value)); 
+				});				
+				showMessage(response.message);
+		      },
+		      error: function (xhr, ajaxOptions, thrownError) {		      	
+		        message = "Error has ocurred connecting API Server.\nPlease, try later.";
+		        showMessage(message);	        		       
+		      },
+			  complete: function () {
+			    toggleAjax(true);	        		       
+			  },
+			});
+
+			function getRegionsByConutry(){		
+				showMessage("");
+				toggleAjax(false);		
+				var countryCode = {country_code : $('#country_select').val()};
+				$.ajax({
+			  type: "GET",
+			  dataType: "json",
+			  url: "<?php echo $this->getUrl('*/*/getRegionsByConutry')?>",
+			  data:  countryCode,
+			  success: function (response) {
+		      	$('#server-response').html(response.html);	
+		      	parent.closePopup(true);				
+		      },
+		      error: function (xhr, ajaxOptions, thrownError) {
+		        message = "Error has ocurred connecting API Server.\nPlease, try later.";
+		        showMessage(message);	       		       
+		      },
+			  complete: function () {
+			    toggleAjax(true);	        		       
+			  },
+			});
+			}
+
+			function addServerResponse(html){
+				$('#server-response').append(html);
+			}
+
+			function showMessage(message){
+				$("#api-messages").children().first().html(message);
+			}
+
+			function sendComment(){
+				showMessage("");
+				$("#text-message").html("Sending comment, please wait.");
+				toggleAjax(false);				
+				var comment = $('#feedback-comment').val();
+				$.ajax({
+				  type: "GET",
+				  dataType: "json",
+				  url: "<?php echo $this->getUrl('*/*/sendComment')?>",
+				  data:  {feedback:comment},
+				  success: function (response) {
+			      	$('#server-response').html(response.html);
+			      	$("#ajax-loader").hide();
+					$("#form-container").show();
+					showMessage(response.message);
+			      },
+			      error: function (xhr, ajaxOptions, thrownError) {
+			        alert("Error has ocurred connecting API Server.\nPlease, try later.");     		       
+			      },
+			      complete: function () {
+			        toggleAjax(true);	        		       
+			      },
+				});	
+						
+			}
+
+			function toggleAjax(visible){
+				$("#ajax-loader").toggle(!visible);
+				$("#form-container").toggle(visible);
+				$("#server-response").toggle(visible);
+			}
+
+		</script>
+	</body>
+</html>
