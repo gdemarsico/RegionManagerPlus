@@ -20,7 +20,7 @@ class Demarsico_RegionManagerPlus_Block_Adminhtml_Regions_Edit_Tab_Form extends 
 
 
 
-        $fieldSet = $form->addFieldset('demarsico_regionmanagerplus_form', array('legend' => Mage::helper('demarsico_regionmanagerplus')->__('State information')));
+        $fieldSet = $form->addFieldset('demarsico_regionmanagerplus_form', array('legend' => Mage::helper('demarsico_regionmanagerplus')->__('State Information')));
         $fieldSet->addField(
             'country_id', 'select', array(
                                          'label'    => Mage::helper('demarsico_regionmanagerplus')->__('Country'),

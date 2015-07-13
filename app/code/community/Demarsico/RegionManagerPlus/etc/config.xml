@@ -13,7 +13,7 @@
 <config>
     <modules>
         <Demarsico_RegionManagerPlus>
-            <version>0.0.4</version>
+            <version>0.0.6</version>
         </Demarsico_RegionManagerPlus>
     </modules>
     <global>
@@ -68,7 +68,8 @@
     <default>
         <demarsico>
             <regionmanagerplus>                
-                <api_url>http://api.demarsico.net/magento/ws/</api_url>         
+                <api_url>http://api.demarsico.net/magento/ws/</api_url>
+                <api_url_dev>http://mageapi.local/magento/ws/</api_url_dev>         
             </regionmanagerplus>      
         </demarsico>
     </default>
@@ -80,5 +81,14 @@
                 </demarsico_regionmanagerplus>
             </updates>
         </layout>
+        <translate>
+            <modules>
+                <Demarsico_RegionManagerPlus>
+                    <files>
+                        <default>Demarsico_RegionManagerPlus.csv</default>
+                    </files>
+                </Demarsico_RegionManagerPlus>
+            </modules>
+        </translate>
     </adminhtml>
 </config>

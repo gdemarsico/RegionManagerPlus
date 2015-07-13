@@ -140,10 +140,13 @@ class Demarsico_RegionManagerPlus_Block_Adminhtml_Regions_Grid extends Mage_Admi
     public function getScripts()
     {
         $locales = Mage::helper('demarsico_regionmanagerplus')->getLocales();
+        $title = Mage::helper('demarsico_regionmanagerplus')->__('Get Regions From API');
         $url = $this->getUrl('*/*/getRegions');
         $returnUrl = $this->getUrl('*/*/index');
         $nameUrl = $this->getUrl('*/*/saveName');
         $codeUrl = $this->getUrl('*/*/saveCode');
+        $saveLabel = Mage::helper('demarsico_regionmanagerplus')->__('Save');
+        $cancelLabel = Mage::helper('demarsico_regionmanagerplus')->__('Cancel');
         $js
             = '
         function getNameUrl(e)
@@ -171,13 +174,13 @@ class Demarsico_RegionManagerPlus_Block_Adminhtml_Regions_Grid extends Mage_Admi
                 if(el.down('span')){return ;}
                 idx = getId(el);
                 el.update('<span id='+idx+'>'+el.innerHTML.trim()+'</span>');
-                new Ajax.InPlaceEditor(el.down('span'), getNameUrl(el),{formId:idx,okText: 'Save',cancelText: 'Cancel'} );
+                new Ajax.InPlaceEditor(el.down('span'), getNameUrl(el),{formId:idx,okText: '$saveLabel',cancelText: '$cancelLabel'} );
             });
             $$('.code_td').each(function(el){
                 if(el.down('span')){return ;}
                 idx = getId(el);
                 el.update('<span id='+idx+'>'+el.innerHTML.trim()+'</span>');
-                new Ajax.InPlaceEditor(el.down('span'), getCodeUrl(el),{formId:idx,okText: 'Save',cancelText: 'Cancel'} );
+                new Ajax.InPlaceEditor(el.down('span'), getCodeUrl(el),{formId:idx,okText: '$saveLabel',cancelText: '$cancelLabel'} );
             });
 
 EOF;
@@ -190,7 +193,7 @@ EOF;
                 $$('.$e_name').each(function(el){
                 idx = getId(el);
                 el.update('<span id='+idx+'>'+el.innerHTML.trim()+'</span>');
-                new Ajax.InPlaceEditor(el.down('span'), getNameLocaleUrl(el,'$nameLocaleUrl'),{formId:idx,okText: 'Save',cancelText: 'Cancel'} );
+                new Ajax.InPlaceEditor(el.down('span'), getNameLocaleUrl(el,'$nameLocaleUrl'),{formId:idx,okText: '$saveLabel',cancelText: '$cancelLabel'} );
             });
 
 EOF;
@@ -203,7 +206,7 @@ EOF;
     oPopup = new Window({
         id:"popup_window",
         className: "magento",
-        title: "Get Regions From API",
+        title: "'.$title.'",
         url: url,
         width: 400,
         height: 450,

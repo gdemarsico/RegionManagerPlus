@@ -18,7 +18,7 @@ class Demarsico_RegionManagerPlus_Block_Adminhtml_Regions extends Mage_Adminhtml
         $this->_headerText = Mage::helper('demarsico_regionmanagerplus')->__('Region Manager Plus');       
         parent::__construct();  
          $this->_addButton('get_regions', array(
-            'label'     => 'Get Regions',
+            'label'     => Mage::helper('demarsico_regionmanagerplus')->__('Get Regions'),
             'onclick'   => 'js:showPopup()',
             'class'     => 'add',
         ),1);      

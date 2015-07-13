@@ -61,7 +61,7 @@
             $enabled = $request->getParam('enabled');
             $countryId = $request->getParam('country_id');
             if (!$name || !$code) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please fill the required fields'));
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('demarsico_regionmanagerplus')->__('Please fill the required fields'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -70,7 +70,7 @@
                 ->addFieldToFilter('country_id', $countryId)
                 ->getAllIds();
             if (count($region) > 0 && !in_array($id, $region)) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('State/Country combination must be unique'));
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('demarsico_regionmanagerplus')->__('State/Country combination must be unique'));
                 $this->_redirect('*/*/edit', array('region_id' => $id));
                 return;
             }
@@ -96,7 +96,7 @@
                         }
                     }
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Item was successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('demarsico_regionmanagerplus')->__('Item was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->getStateData(false);
                 $this->_redirect('*/*/');
                 return;
@@ -127,7 +127,7 @@
                     $region->delete();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('adminhtml')->__('Total of %d record(s) were deleted.', count($regionIds))
+                    Mage::helper('demarsico_regionmanagerplus')->__('Total of %d record(s) were deleted.', count($regionIds))
                 );
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -142,7 +142,7 @@
     {
         $regionIds = $this->getRequest()->getParam('demarsico_regionmanagerplus');
         if (!is_array($regionIds)) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select region(s).'));
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('demarsico_regionmanagerplus')->__('Please select region(s).'));
         } else {
             try {
                 $region_model = Mage::getModel('directory/region');
@@ -155,7 +155,7 @@
                 }
                 Mage::app()->getCacheInstance()->clean();
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('adminhtml')->__('Total of %d record(s) were enabled.', count($regionIds))
+                    Mage::helper('demarsico_regionmanagerplus')->__('Total of %d record(s) were enabled.', count($regionIds))
                 );
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -170,7 +170,7 @@
     {
         $regionIds = $this->getRequest()->getParam('demarsico_regionmanagerplus');
         if (!is_array($regionIds)) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select region(s).'));
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('demarsico_regionmanagerplus')->__('Please select region(s).'));
         } else {
             try {
                 $region_model = Mage::getModel('directory/region');
@@ -183,7 +183,7 @@
                 }
                 Mage::app()->getCacheInstance()->clean();
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('adminhtml')->__('Total of %d record(s) were disabled.', count($regionIds))
+                    Mage::helper('demarsico_regionmanagerplus')->__('Total of %d record(s) were disabled.', count($regionIds))
                 );
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -267,6 +267,7 @@
 
     public function getAvailableCountriesAction(){
         $version = (string)Mage::helper('demarsico_regionmanagerplus')->getModuleVersion();        
+        $locale = Mage::app()->getLocale()->getLocaleCode();
         $url = Mage::getStoreConfig('demarsico/regionmanagerplus/api_url');
         $soap_options = array(
             'soap_version'   => SOAP_1_2,
@@ -279,7 +280,9 @@
         catch(Exception $e){
             echo $e->getCode() . '-' . $e->getMessage();
         }
-        $results = $client->getCountries($version);
+        $params = array('version'=>$version,'locale'=>$locale);        
+        // $results = $client->getCountries(); deprecated version 0.0.6
+        $results = $client->getCountryList($version, $locale);
         echo json_encode($results);
     }
 
@@ -296,7 +299,8 @@
         $results = $client->getRegions($version, $coutryCode);
         Mage::getSingleton('demarsico_regionmanagerplus/region')->addRegions($results->data);
         echo json_encode($results);
-        Mage::getSingleton('core/session')->addSuccess('Regions added Successfully'); 
+        $message = Mage::helper('demarsico_regionmanagerplus')->__('Regions added Successfully');
+        Mage::getSingleton('core/session')->addSuccess($message); 
     }
 
     public function sendCommentAction(){
@@ -310,6 +314,7 @@
             'exceptions'     => 0);
         $client = new SoapClient($url, $soap_options ); 
         $results = $client->sendComment($version, $comment);
+        $results->message = Mage::Helper('demarsico_regionmanagerplus')->__($results->message);
         echo json_encode($results);
     }
 
