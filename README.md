@@ -1,6 +1,10 @@
 # RegionManagerPlus
 Manage regions for any country. Create, edit, delete, enable/disable or download regions from API.
 
+Version 0.0.6
+Change Log:
+* ES Translations
+
 Version 0.0.5
 Change Log:
 * Bugfix Locale name save.
