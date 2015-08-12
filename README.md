@@ -1,6 +1,13 @@
 # RegionManagerPlus
 Manage regions for any country. Create, edit, delete, enable/disable or download regions from API.
 
+Version 0.0.7
+Change Log:
+* AR Translations
+* HI Translations 
+* PT Translations 
+* ZH Translations
+
 Version 0.0.6
 Change Log:
 * ES Translations
