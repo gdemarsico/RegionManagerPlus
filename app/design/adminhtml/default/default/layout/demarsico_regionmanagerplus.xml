@@ -17,12 +17,17 @@
         </reference>
         <reference name="head">
             <action method="addItem">
-                <type>js_css</type>
-                <name>prototype/windows/themes/default.css</name>
+                <type>skin_js</type><name>demarsico/regionmanagerplus/js/jquery-1.11.2.min.js</name>
+            </action>   
+            <action method="addItem">
+                <type>skin_js</type><name>demarsico/regionmanagerplus/js/jquery.fancybox.pack.js</name>
             </action>
-            <action method="addCss">
-                <name>lib/prototype/windows/themes/magento.css</name>
+            <action method="addItem">
+                <type>skin_js</type><name>demarsico/regionmanagerplus/js/regionmanagerplus.js</name>
             </action>
+            <action method="addItem">
+                <type>skin_css</type><name>demarsico/regionmanagerplus/css/jquery.fancybox.css</name>
+            </action> 
         </reference>
     </demarsico_regionmanagerplus_adminhtml_regions_index>
 </layout>

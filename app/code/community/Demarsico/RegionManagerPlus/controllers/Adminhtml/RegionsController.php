@@ -32,7 +32,7 @@
     public function editAction()
     {
         $regionId = $this->getRequest()->getParam('region_id');
-        $region = Mage::getModel('directory/region')->load($regionId);
+        $region = Mage::getModel('demarsico_regionmanagerplus/region')->load($regionId);
 
         if ($region->getRegionId() || $regionId == 0) {
             $this->_initAction();
@@ -121,7 +121,7 @@
         } 
         else {
             try {
-                $collection = Mage::getModel('directory/region')->getCollection()
+                $collection = Mage::getModel('demarsico_regionmanagerplus/region')->getCollection()
                     ->addFieldToFilter('main_table.region_id', array('in' => $regionIds));;
                 foreach ($collection as $region) {
                     $region->delete();
@@ -145,7 +145,7 @@
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('demarsico_regionmanagerplus')->__('Please select region(s).'));
         } else {
             try {
-                $region_model = Mage::getModel('directory/region');
+                $region_model = Mage::getModel('demarsico_regionmanagerplus/region');
                 foreach ($regionIds as $regionId) {
                     $region = $region_model->load($regionId);
                     if(!$region->getEnabled()){
@@ -173,9 +173,10 @@
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('demarsico_regionmanagerplus')->__('Please select region(s).'));
         } else {
             try {
-                $region_model = Mage::getModel('directory/region');
+                $region_model = Mage::getModel('demarsico_regionmanagerplus/region');
                 foreach ($regionIds as $regionId) {
                     $region = $region_model->load($regionId);
+                    
                     if($region->getEnabled()){
                         $region->setEnabled(0);
                         $region->save();
@@ -199,7 +200,7 @@
 
         $html = $layout
             ->createBlock('demarsico_regionmanagerplus/adminhtml_api_regions')
-            ->setTemplate('demarsico_regionmanagerplus/getregions.phtml')
+            ->setTemplate('demarsico/regionmanagerplus/getregions.phtml')
             ->toHtml();
 
         echo $html;
@@ -295,7 +296,7 @@
             'trace'          => 1,
             'cache_wsdl' => WSDL_CACHE_NONE, 
             'exceptions'     => 0);
-        $client = new SoapClient($url, $soap_options ); 
+        $client = new SoapClient($url, $soap_options); 
         $results = $client->getRegions($version, $coutryCode);
         Mage::getSingleton('demarsico_regionmanagerplus/region')->addRegions($results->data);
         echo json_encode($results);

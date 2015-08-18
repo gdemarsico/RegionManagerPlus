@@ -9,7 +9,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
- class Demarsico_RegionManagerPlus_Model_Resource_Region_Collection extends  Mage_Core_Model_Resource_Db_Collection_Abstract{
+ class Demarsico_RegionManagerPlus_Model_Resource_Region_Collection extends  Demarsico_RegionManagerPlus_Model_Resource_Region_MageVersion{
     
     protected function _construct()
     {

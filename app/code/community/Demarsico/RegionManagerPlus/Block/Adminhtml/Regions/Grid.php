@@ -14,6 +14,7 @@ class Demarsico_RegionManagerPlus_Block_Adminhtml_Regions_Grid extends Mage_Admi
     public function __construct()
     {
         parent::__construct();
+        $this->setTemplate('demarsico/regionmanagerplus/widget/grid.phtml');
         $this->setId('demarsico_regions_grid');
         $this->setDefaultSort('region_id');
         $this->setDefaultDir('DESC');
@@ -140,9 +141,8 @@ class Demarsico_RegionManagerPlus_Block_Adminhtml_Regions_Grid extends Mage_Admi
     public function getScripts()
     {
         $locales = Mage::helper('demarsico_regionmanagerplus')->getLocales();
-        $title = Mage::helper('demarsico_regionmanagerplus')->__('Get Regions From API');
-        $url = $this->getUrl('*/*/getRegions');
-        $returnUrl = $this->getUrl('*/*/index');
+        
+        $url = $this->getUrl('*/*/getRegions');        
         $nameUrl = $this->getUrl('*/*/saveName');
         $codeUrl = $this->getUrl('*/*/saveCode');
         $saveLabel = Mage::helper('demarsico_regionmanagerplus')->__('Save');
@@ -200,38 +200,7 @@ EOF;
 
         }
         $js .='});';
-        $js .= 'function showPopup() {
-        var url = "'.$url .'";
-        var returnUrl = "'.$returnUrl.'";
-    oPopup = new Window({
-        id:"popup_window",
-        className: "magento",
-        title: "'.$title.'",
-        url: url,
-        width: 400,
-        height: 450,
-        minimizable: false,
-        maximizable: false,        
-        hideEffect:Element.hide,
-        showEffect:Element.show,
-        opacity: 1,
-        showEffectOptions: {
-            duration: 0.4
-        },
-        hideEffectOptions:{
-            duration: 0.4
-        },
-        destroyOnClose: true
-    });
-    oPopup.setZIndex(100);
-    oPopup.showCenter(true);
-}
-
-function closePopup(reload) {
-    Windows.close("popup_window");
-    if(reload)
-        location.reload();
-}';
+        
         return $js;
 
     }
