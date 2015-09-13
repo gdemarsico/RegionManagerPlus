@@ -19,7 +19,7 @@ class Demarsico_RegionManagerPlus_Block_Adminhtml_Regions extends Mage_Adminhtml
         parent::__construct();  
          $this->_addButton('get_regions', array(
             'label'     => Mage::helper('demarsico_regionmanagerplus')->__('Get Regions'),
-            'onclick'   => 'js:showPopup()',
+            'onclick'   => 'js:ajaxRegions()',
             'class'     => 'add',
         ),1);      
     }

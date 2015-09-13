@@ -1,6 +1,5 @@
 <html>
 	<head>
-		<script src="http://api.demarsico.net/js/jquery-1.11.2.min.js"></script>
 		<style type="text/css">
 		.styled-select select {
 		   background: transparent;
@@ -69,79 +68,61 @@
 			</div>
 		</div>
 		<script type="text/javascript">			
-			$( "#text-message" ).html("<?php echo Mage::helper('demarsico_regionmanagerplus')->__('Searching country regions, please wait.')?>");
-			$( "#region_button" ).click(function() {
-				$( "#text-message" ).html("<?php echo Mage::helper('demarsico_regionmanagerplus')->__('Downloading regions, please wait.')?>");
+			jQuery( "#text-message" ).html("<?php echo Mage::helper('demarsico_regionmanagerplus')->__('Searching country regions, please wait.')?>");
+			jQuery( "#region_button" ).click(function() {
+				jQuery( "#text-message" ).html("<?php echo Mage::helper('demarsico_regionmanagerplus')->__('Downloading regions, please wait.')?>");
 			  getRegionsByConutry();
 			});
 			toggleAjax(false);
-			$.ajax({
-			  dataType: "json",
-			  url: "<?php echo $this->getUrl('*/*/getAvailableCountries')?>",
-			  success: function (response) {
-			  	$('#server-response').html(response.html);
-		        $.each(response.data, function(key, value) {   
-				     $("#country_select")
-				         .append($("<option></option>")
-				         .attr("value",key)
-				         .text(value)); 
-				});				
-				showMessage(response.message);
-		      },
-		      error: function (xhr, ajaxOptions, thrownError) {		      	
-		        message = "Error has ocurred connecting API Server.\nPlease, try later.";
-		        showMessage(message);	        		       
-		      },
-			  complete: function () {
-			    toggleAjax(true);	        		       
-			  },
-			});
+			getCountries();
+			
 
 			function getRegionsByConutry(){		
 				showMessage("");
 				toggleAjax(false);		
-				var countryCode = {country_code : $('#country_select').val()};
-				$.ajax({
+				var countryCode = {country_code : jQuery('#country_select').val()};
+				jQuery.ajax({
 			  type: "GET",
 			  dataType: "json",
 			  url: "<?php echo $this->getUrl('*/*/getRegionsByConutry')?>",
 			  data:  countryCode,
 			  success: function (response) {
-		      	$('#server-response').html(response.html);	
-		      	parent.closePopup(true);				
+		      	jQuery('#server-response').html(response.html);	
+		      	closeFancy();	
+		      	location.reload();			
 		      },
 		      error: function (xhr, ajaxOptions, thrownError) {
 		        message = "Error has ocurred connecting API Server.\nPlease, try later.";
 		        showMessage(message);	       		       
 		      },
 			  complete: function () {
-			    toggleAjax(true);	        		       
+			    toggleAjax(true);	        		   	    
 			  },
 			});
 			}
 
 			function addServerResponse(html){
-				$('#server-response').append(html);
+				jQuery('#server-response').append(html);
 			}
 
 			function showMessage(message){
-				$("#api-messages").children().first().html(message);
+				jQuery("#api-messages").children().first().html(message);
 			}
 
 			function sendComment(){
 				showMessage("");
-				$("#text-message").html("Sending comment, please wait.");
+				jQuery("#text-message").html("Sending comment, please wait.");
 				toggleAjax(false);				
-				var comment = $('#feedback-comment').val();
-				$.ajax({
+				var comment = jQuery('#feedback-comment').val();
+				jQuery.ajax({
 				  type: "GET",
 				  dataType: "json",
 				  url: "<?php echo $this->getUrl('*/*/sendComment')?>",
 				  data:  {feedback:comment},
 				  success: function (response) {
-			      	$('#server-response').html(response.html);
-			      	$("#ajax-loader").hide();
-					$("#form-container").show();
+			      	jQuery('#server-response').html(response.html);
+			      	jQuery("#ajax-loader").hide();
+					jQuery("#form-container").show();
 					showMessage(response.message);
 			      },
 			      error: function (xhr, ajaxOptions, thrownError) {
@@ -155,9 +136,9 @@
 			}
 
 			function toggleAjax(visible){
-				$("#ajax-loader").toggle(!visible);
-				$("#form-container").toggle(visible);
-				$("#server-response").toggle(visible);
+				jQuery("#ajax-loader").toggle(!visible);
+				jQuery("#form-container").toggle(visible);
+				jQuery("#server-response").toggle(visible);
 			}
 
 		</script>

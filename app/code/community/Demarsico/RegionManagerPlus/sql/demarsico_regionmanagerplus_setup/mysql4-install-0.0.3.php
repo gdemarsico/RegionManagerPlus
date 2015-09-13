@@ -13,15 +13,10 @@ $installer = $this;
  
 $installer->startSetup();
 
-$installer->getConnection()
-    ->addColumn($installer->getTable('demarsico_regionmanagerplus/region'),
-    'enabled',
-    array(
-        'type' => Varien_Db_Ddl_Table::TYPE_SMALLINT,
-        'nullable' => false,
-        'default' => 1,
-        'comment' => 'Enabled'
-    )
-);
+$table = $this->getTable('demarsico_regionmanagerplus/region');
+
+$installer->getConnection()->query(
+    "ALTER TABLE  " . $table . "  ADD  enabled TINYINT NOT NULL DEFAULT  1 COMMENT 'Enabled'"
+    );
  
 $installer->endSetup();

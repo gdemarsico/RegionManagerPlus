@@ -1,0 +1,28 @@
+Magento 1.4.0.0
+
+ln -s /var/www/Regionmanagerplus/app/code/community/Demarsico /var/www/magento1400/app/code/community/Demarsico
+
+ln -s /var/www/Regionmanagerplus/app/design/adminhtml/default/default/layout/demarsico_regionmanagerplus.xml  /var/www/magento1400/app/design/adminhtml/default/default/layout/demarsico_regionmanagerplus.xml
+
+ln -s /var/www/Regionmanagerplus/app/design/adminhtml/default/default/template/demarsico_regionmanagerplus /var/www/magento1400/app/design/adminhtml/default/default/template/demarsico_regionmanagerplus
+
+ln -s /var/www/Regionmanagerplus/app/etc/modules/Demarsico_RegionManagerPlus.xml /var/www/magento1400/app/etc/modules/Demarsico_RegionManagerPlus.xml
+
+ln -s /var/www/Regionmanagerplus/app/locale/es_AR/Demarsico_RegionManagerPlus.csv /var/www/magento1400/app/locale/es_AR/Demarsico_RegionManagerPlus.csv 
+
+ln -s /var/www/Regionmanagerplus/skin/adminhtml/default/default/demarsico /var/www/magento1400/skin/adminhtml/default/default/demarsico 
+
+-----------------------------------------------------------------------------
+Magento 1.7.0.2
+
+ln -s /var/www/Regionmanagerplus/app/code/community/Demarsico /var/www/magento1702/app/code/community/Demarsico
+
+ln -s /var/www/Regionmanagerplus/app/design/adminhtml/default/default/layout/demarsico_regionmanagerplus.xml  /var/www/magento1702/app/design/adminhtml/default/default/layout/demarsico_regionmanagerplus.xml
+
+ln -s /var/www/Regionmanagerplus/app/design/adminhtml/default/default/template/demarsico_regionmanagerplus /var/www/magento1702/app/design/adminhtml/default/default/template/demarsico_regionmanagerplus
+
+ln -s /var/www/Regionmanagerplus/app/etc/modules/Demarsico_RegionManagerPlus.xml /var/www/magento1702/app/etc/modules/Demarsico_RegionManagerPlus.xml
+
+ln -s /var/www/Regionmanagerplus/app/locale/es_AR/Demarsico_RegionManagerPlus.csv /var/www/magento1702/app/locale/es_AR/Demarsico_RegionManagerPlus.csv 
+
+ln -s /var/www/Regionmanagerplus/skin/adminhtml/default/default/demarsico /var/www/magento1702/skin/adminhtml/default/default/demarsico 
