@@ -1,6 +1,10 @@
 # RegionManagerPlus
 Manage regions for any country. Create, edit, delete, enable/disable or download regions from API.
 
+Version 0.0.8
+Change Log:
+* Compatibility with all Magento versions
+
 Version 0.0.7
 Change Log:
 * AR Translations
